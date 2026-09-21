@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import MovieCard from "./components/MovieCard";
 import useDebounce from "./hooks/useDebounce";
@@ -15,7 +15,16 @@ function App() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
+  const [theme, setTheme] = useLocalStorage("theme", "dark");
   const [tab, setTab] = useState("all");
+
+  function toggleTheme() {
+  setTheme(theme === "dark" ? "light" : "dark");
+}
+
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark")
+  },[theme])
 
   useEffect(() => {
     let ignore = false;
@@ -69,7 +78,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen w-full font-sans text-neutral-100 bg-linear-to-br from-brand-950 via-neutral-900 to-black">
-      <Navbar tab={tab} setTab={setTab}/>
+      <Navbar tab={tab} setTab={setTab} theme={theme} onToggleTheme={toggleTheme}/>
       <main className="flex-1">
          <div className="max-w-[1180px] mx-auto px-6 pt-12 pb-20">
       <SearchBar

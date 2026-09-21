@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function Navbar({ tab, setTab }) {
+function Navbar({ tab, setTab, theme, onToggleTheme }) {
     const [menuOpen, setMenuOpen] = useState(false)
 
     function selectTab(value) {
@@ -32,6 +32,12 @@ function Navbar({ tab, setTab }) {
                         }`}
                         onClick={() => selectTab("favorites")}>
                         Favorites
+                    </button>
+                    <button 
+                        className=""
+                        onClick={onToggleTheme}
+                    >
+                        {theme === "dark" ? "☀" : "☾"}
                     </button>
                 </nav>
                 <button
